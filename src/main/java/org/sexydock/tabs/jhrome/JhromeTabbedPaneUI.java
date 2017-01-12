@@ -100,21 +100,7 @@ import javax.swing.plaf.UIResource;
 import org.omg.CORBA.BooleanHolder;
 import org.sexydock.InternalTransferableStore;
 import org.sexydock.SwingUtils;
-import org.sexydock.tabs.DefaultFloatingTabHandler;
-import org.sexydock.tabs.DefaultTabCloseButtonListener;
-import org.sexydock.tabs.DefaultTabDropFailureHandler;
-import org.sexydock.tabs.DefaultTabFactory;
-import org.sexydock.tabs.IFloatingTabHandler;
-import org.sexydock.tabs.ITabCloseButtonListener;
-import org.sexydock.tabs.ITabDropFailureHandler;
-import org.sexydock.tabs.ITabFactory;
-import org.sexydock.tabs.ITabbedPaneDndPolicy;
-import org.sexydock.tabs.ITabbedPaneWindowFactory;
-import org.sexydock.tabs.PropertyGetter;
-import org.sexydock.tabs.RecursiveListener;
-import org.sexydock.tabs.Tab;
-import org.sexydock.tabs.TabDragInfo;
-import org.sexydock.tabs.Utils;
+import org.sexydock.tabs.*;
 import org.sexydock.tabs.event.ITabbedPaneListener;
 import org.sexydock.tabs.event.TabAddedEvent;
 import org.sexydock.tabs.event.TabMovedEvent;
@@ -137,7 +123,11 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 	public static final String	NEW_TAB_BUTTON_VISIBLE		= "sexydock.tabbedPane.newTabButtonVisible";
 	
 	public static final String	TAB_CLOSE_BUTTON_LISTENER	= "sexydock.tabbedPane.tabCloseButtonListener";
-	
+
+	public static final String  TAB_CONTEXTMENU_LISTENER    = "sexydock.tabbedPane.tabContextMenuListener";
+
+	public static final String  TAB_SELECTION_LISTENER      = "sexydock.tabbedPane.tabSelectionListener";
+
 	public static final String	FLOATING_TAB_HANDLER		= "sexydock.tabbedPane.floatingTabHandler";
 	
 	public static final String	TAB_DROP_FAILURE_HANDLER	= "sexydock.tabbedPane.tabDropFailureHandler";
@@ -149,7 +139,9 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 	public static final String	NEW_TAB_BUTTON_UI			= "sexydock.tabbedPane.newTabButtonUI";
 	
 	public static final String	USE_UNIFORM_WIDTH			= "sexydock.tabbedPane.useUniformWidth";
-	
+
+	public static final String	MAX_UNIFORM_WIDTH			= "sexydock.tabbedPane.maxUniformWidth";
+
 	public static final String	ANIMATION_FACTOR			= "sexydock.tabbedPane.animationFactor";
 	
 	public static final boolean	DEFAULT_USE_UNIFORM_WIDTH	= true;
@@ -337,10 +329,15 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 										Tab tab = getSelectableTabAt( p );
 										if( tab != null )
 										{
+                                            maybePopup(e, tab);
 											int vIndex = virtualizeIndex( getInfoIndex( tab ) );
+
 											if( tabbedPane.getSelectedComponent( ) != tab.getContent( ) && tabbedPane.isEnabledAt( vIndex ) )
 											{
-												tabbedPane.setSelectedComponent( tab.getContent( ) );
+                                                tabbedPane.setSelectedComponent( tab.getContent( ) );
+                                                ((ITabSelectionListener) tabbedPane
+                                                        .getClientProperty(TAB_SELECTION_LISTENER))
+                                                        .tabSelected(tabbedPane, tab.getContent());
 											}
 											else if( tabbedPane.isRequestFocusEnabled( ) )
 											{
@@ -348,7 +345,34 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 											}
 										}
 									}
-								};
+
+                                    @Override
+                                    public void mouseReleased(MouseEvent e)
+                                    {
+                                        if( !tabbedPane.isEnabled( ) )
+                                        {
+                                            return;
+                                        }
+
+                                        Point p = SwingUtilities.convertPoint( e.getComponent( ) , e.getPoint( ) , tabbedPane );
+                                        Tab tab = getSelectableTabAt( p );
+                                        if( tab != null ) {
+                                            maybePopup(e, tab);
+                                        }
+                                    }
+
+                                    private void maybePopup(MouseEvent e, Tab tab)
+                                    {
+                                        if (!e.isPopupTrigger()) {
+                                            return;
+                                        }
+
+                                        ((ITabContextMenuListener) tabbedPane
+                                                .getClientProperty(TAB_CONTEXTMENU_LISTENER))
+                                                .tabContextMenuTriggered(tabbedPane, tab.getContent(), e.getPoint());
+                                        return;
+                                    }
+                                };
 		
 		@Override
 		protected void install( Component c )
@@ -475,6 +499,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		tabDropFailureHandler = PropertyGetter.get( ITabDropFailureHandler.class , tabbedPane , TAB_DROP_FAILURE_HANDLER );
 		floatingTabHandler = PropertyGetter.get( IFloatingTabHandler.class , tabbedPane , FLOATING_TAB_HANDLER , new DefaultFloatingTabHandler( ) );
 		useUniformWidth = PropertyGetter.get( Boolean.class , tabbedPane , USE_UNIFORM_WIDTH , DEFAULT_USE_UNIFORM_WIDTH );
+		maxUniformWidth = PropertyGetter.get( Integer.class , tabbedPane , MAX_UNIFORM_WIDTH , maxUniformWidth );
 		animFactor = PropertyGetter.get( Double.class , tabbedPane , ANIMATION_FACTOR , DEFAULT_ANIMATION_FACTOR );
 		if( tabbedPane.getClientProperty( TAB_CLOSE_BUTTON_LISTENER ) == null )
 		{
@@ -484,6 +509,14 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		{
 			tabbedPane.putClientProperty( TAB_CLOSE_BUTTONS_VISIBLE , PropertyGetter.get( Boolean.class , TAB_CLOSE_BUTTONS_VISIBLE , false ) );
 		}
+		if (tabbedPane.getClientProperty( TAB_CONTEXTMENU_LISTENER ) == null )
+        {
+            tabbedPane.putClientProperty( TAB_CONTEXTMENU_LISTENER , PropertyGetter.get( ITabContextMenuListener.class , TAB_CONTEXTMENU_LISTENER , new DefaultTabContextMenuListener( ) ) );
+        }
+        if (tabbedPane.getClientProperty( TAB_SELECTION_LISTENER ) == null )
+        {
+            tabbedPane.putClientProperty( TAB_SELECTION_LISTENER , PropertyGetter.get( ITabSelectionListener.class , TAB_SELECTION_LISTENER , new DefaultTabSelectionListener( ) ) );
+        }
 		
 		installKeyboardActions( );
 	}
@@ -2435,6 +2468,12 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 				tabbedPane.invalidate( );
 				tabbedPane.validate( );
 			}
+			else if( MAX_UNIFORM_WIDTH.equals( evt.getPropertyName( ) ) )
+			{
+				maxUniformWidth = PropertyGetter.get( Integer.class , tabbedPane , MAX_UNIFORM_WIDTH , maxUniformWidth );
+				tabbedPane.invalidate( );
+				tabbedPane.validate( );
+			}
 		}
 		
 		@Override
@@ -2785,7 +2824,10 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		dest.putClientProperty( NEW_TAB_BUTTON_UI , src.getClientProperty( NEW_TAB_BUTTON_UI ) );
 		dest.putClientProperty( DND_POLICY , src.getClientProperty( DND_POLICY ) );
 		dest.putClientProperty( TAB_CLOSE_BUTTON_LISTENER , src.getClientProperty( TAB_CLOSE_BUTTON_LISTENER ) );
+		dest.putClientProperty( TAB_CONTEXTMENU_LISTENER, src.getClientProperty( TAB_CONTEXTMENU_LISTENER ) );
+		dest.putClientProperty( TAB_SELECTION_LISTENER, src.getClientProperty( TAB_SELECTION_LISTENER ) );
 		dest.putClientProperty( USE_UNIFORM_WIDTH , src.getClientProperty( USE_UNIFORM_WIDTH ) );
+		dest.putClientProperty( MAX_UNIFORM_WIDTH , src.getClientProperty( MAX_UNIFORM_WIDTH ) );
 		dest.putClientProperty( ANIMATION_FACTOR , src.getClientProperty( ANIMATION_FACTOR ) );
 		dest.setTabPlacement( src.getTabPlacement( ) );
 		dest.setEnabled( src.isEnabled( ) );

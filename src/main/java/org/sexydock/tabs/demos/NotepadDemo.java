@@ -1,9 +1,6 @@
 package org.sexydock.tabs.demos;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
@@ -35,14 +32,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.sexydock.tabs.DefaultFloatingTabHandler;
-import org.sexydock.tabs.DefaultTabDropFailureHandler;
-import org.sexydock.tabs.DefaultWindowsClosedHandler;
-import org.sexydock.tabs.ITabFactory;
-import org.sexydock.tabs.ITabbedPaneDndPolicy;
-import org.sexydock.tabs.ITabbedPaneWindow;
-import org.sexydock.tabs.ITabbedPaneWindowFactory;
-import org.sexydock.tabs.Tab;
+import org.sexydock.tabs.*;
 import org.sexydock.tabs.jhrome.JhromeTabbedPaneUI;
 
 @SuppressWarnings( "serial" )
@@ -77,6 +67,7 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo , ITabbedPaneWi
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.TAB_FACTORY , this );
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.FLOATING_TAB_HANDLER , new DefaultFloatingTabHandler( ) );
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.TAB_CLOSE_BUTTONS_VISIBLE , true );
+		tabbedPane.putClientProperty( JhromeTabbedPaneUI.MAX_UNIFORM_WIDTH, 200);
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.DND_POLICY , new ITabbedPaneDndPolicy( )
 		{
 			@Override
@@ -91,6 +82,22 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo , ITabbedPaneWi
 				return tab.getContent( ) instanceof NotepadPane;
 			}
 		});
+		tabbedPane.putClientProperty(JhromeTabbedPaneUI.TAB_CONTEXTMENU_LISTENER, new ITabContextMenuListener()
+        {
+            @Override
+            public void tabContextMenuTriggered(JTabbedPane tabbedPane, Component c, Point p)
+            {
+                System.out.println("show jpopup menu");
+            }
+        });
+		tabbedPane.putClientProperty(JhromeTabbedPaneUI.TAB_SELECTION_LISTENER, new ITabSelectionListener()
+        {
+            @Override
+            public void tabSelected(JTabbedPane tabbedPane, Component c)
+            {
+                System.out.println("tab selected");
+            }
+        });
 		
 		getContentPane( ).add( tabbedPane , BorderLayout.CENTER );
 		
@@ -144,6 +151,7 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo , ITabbedPaneWi
 				}
 			}
 		} );
+
 	}
 	
 	private void updateTitle( )
