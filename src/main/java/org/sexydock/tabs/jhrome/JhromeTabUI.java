@@ -73,7 +73,7 @@ public class JhromeTabUI extends BasicTabUI
 	
 	private void init( )
 	{
-		innerBorder = new EmptyBorder( 5 , 5 , 5 , 0 );
+		innerBorder = new EmptyBorder( 5 , 0 , 5 , 2 );
 		outerBorder = new JhromeTabBorder( );
 		outerBorder.attrs.copyAttributes( normalAttributes );
 		compoundBorder = new CompoundBorder( outerBorder , innerBorder );
@@ -90,6 +90,7 @@ public class JhromeTabUI extends BasicTabUI
 		JLabel label = getLabel( );
 		label.setFont( label.getFont( ).deriveFont( Font.PLAIN ) );
 		label.setForeground( unselectedLabelColor );
+		label.setBorder(new EmptyBorder(0, 0, 0, 10));
 		
 		JButton closeButton = getCloseButton( );
 		closeButton.setText( "" );

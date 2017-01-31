@@ -58,7 +58,7 @@ public class JhromeNewTabButtonUI extends BasicButtonUI
 	{
 		super.installUI( c );
 		button = ( AbstractButton ) c;
-		button.setIcon( JhromeNewTabButtonUI.createNewTabButtonIcon( ) );
+		//button.setIcon( JhromeNewTabButtonUI.createNewTabButtonIcon( ) );
 		button.setFocusable( false );
 		button.setContentAreaFilled( false );
 		button.setBorder( border );

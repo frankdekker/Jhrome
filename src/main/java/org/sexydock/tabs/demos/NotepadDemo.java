@@ -6,26 +6,9 @@ import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -62,6 +45,7 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo , ITabbedPaneWi
 		tabbedPane = new JTabbedPane( );
 		tabbedPane.setUI( new JhromeTabbedPaneUI( ) );
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.NEW_TAB_BUTTON_VISIBLE , true );
+		tabbedPane.putClientProperty( JhromeTabbedPaneUI.USE_UNIFORM_WIDTH, false);
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.TAB_CLOSE_BUTTONS_VISIBLE , true );
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.TAB_DROP_FAILURE_HANDLER , new DefaultTabDropFailureHandler( this ) );
 		tabbedPane.putClientProperty( JhromeTabbedPaneUI.TAB_FACTORY , this );
@@ -464,9 +448,39 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo , ITabbedPaneWi
 	{
 		Tab tab = new Tab( );
 		tab.setTitle( "Untitled" );
+		tab.setIcon(getImageIcon("agenda_16.png"));
 		tab.setContent( new NotepadPane( ) );
 		return tab;
 	}
+
+    public static ImageIcon getImageIcon(String image)
+    {
+        try {
+            InputStream resourceAsStream = NotepadDemo.class.getResourceAsStream(image);
+            if (resourceAsStream == null) {
+                return null;
+            }
+
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+            int nRead;
+            byte[] data = new byte[16384];
+
+            while ((nRead = resourceAsStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+
+            buffer.flush();
+
+            resourceAsStream.close();
+            buffer.close();
+
+            return new ImageIcon(buffer.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
 	@Override
 	public ITabbedPaneWindow createWindow( )
@@ -491,7 +505,7 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo , ITabbedPaneWi
 	{
 		NotepadDemo notepadDemo = new NotepadDemo( );
 		Tab newTab = notepadDemo.createTabWithContent( );
-		notepadDemo.getTabbedPane( ).addTab( newTab.getTitle( ) , newTab.getContent( ) );
+		notepadDemo.getTabbedPane( ).addTab( newTab.getTitle( ) , newTab.getIcon(), newTab.getContent( ) );
 		notepadDemo.pack( );
 		notepadDemo.setLocationRelativeTo( null );
 		notepadDemo.setVisible( true );
