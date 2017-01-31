@@ -259,7 +259,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 	private Rectangle					topZone					= new Rectangle( );
 	private Rectangle					tabZone					= new Rectangle( );
 	
-	private int							extraDropZoneSpace		= 25;
+	private int							extraDropZoneSpace		= 75;
 	private Rectangle					dropZone				= new Rectangle( );
 	
 	private ITabbedPaneDndPolicy		dndPolicy				= null;
@@ -1998,7 +1998,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		@Override
 		public void dragExit( DropTargetEvent dte )
 		{
-			dragOut( dte.getDropTargetContext( ).getComponent( ) , dragInfo );
+			//dragOut( dte.getDropTargetContext( ).getComponent( ) , dragInfo );
 			dragInfo = null;
 		}
 		
