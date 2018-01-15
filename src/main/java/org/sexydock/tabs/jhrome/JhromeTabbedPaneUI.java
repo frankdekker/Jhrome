@@ -371,7 +371,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 
                                         ((ITabContextMenuListener) tabbedPane
                                                 .getClientProperty(TAB_CONTEXTMENU_LISTENER))
-                                                .tabContextMenuTriggered(tabbedPane, tab.getContent(), e.getPoint());
+                                                .tabContextMenuTriggered(tabbedPane, tab.getTabComponent(), tab.getContent(), e.getPoint());
                                         return;
                                     }
                                 };

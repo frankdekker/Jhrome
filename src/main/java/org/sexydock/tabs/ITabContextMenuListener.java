@@ -5,5 +5,5 @@ import java.awt.*;
 
 public interface ITabContextMenuListener
 {
-    public void tabContextMenuTriggered(JTabbedPane tabbedPane, Component c, Point p);
+    public void tabContextMenuTriggered(JTabbedPane tabbedPane, Component tabComponent, Component c, Point p);
 }
