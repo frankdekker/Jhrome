@@ -124,6 +124,8 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 	
 	public static final String	TAB_CLOSE_BUTTON_LISTENER	= "sexydock.tabbedPane.tabCloseButtonListener";
 
+	public static final String	TAB_NEW_BUTTON_LISTENER	    = "sexydock.tabbedPane.tabNewButtonListener";
+
 	public static final String  TAB_CONTEXTMENU_LISTENER    = "sexydock.tabbedPane.tabContextMenuListener";
 
 	public static final String  TAB_SELECTION_LISTENER      = "sexydock.tabbedPane.tabSelectionListener";
@@ -456,16 +458,14 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 			@Override
 			public void actionPerformed( ActionEvent e )
 			{
-				if( tabFactory == null )
-				{
+				ITabNewButtonListener tabNewButtonListener =
+						(ITabNewButtonListener) tabbedPane.getClientProperty(TAB_NEW_BUTTON_LISTENER);
+
+				if (tabNewButtonListener == null) {
 					return;
 				}
-				Tab newTab = tabFactory.createTabWithContent( );
-				if( newTab != null )
-				{
-					tabbedPane.addTab( newTab.getTitle( ) , newTab.getContent( ) );
-					tabbedPane.setSelectedComponent( newTab.getContent( ) );
-				}
+
+				tabNewButtonListener.tabNewButtonPressed(tabbedPane);
 			}
 		};
 		
@@ -2824,6 +2824,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		dest.putClientProperty( NEW_TAB_BUTTON_UI , src.getClientProperty( NEW_TAB_BUTTON_UI ) );
 		dest.putClientProperty( DND_POLICY , src.getClientProperty( DND_POLICY ) );
 		dest.putClientProperty( TAB_CLOSE_BUTTON_LISTENER , src.getClientProperty( TAB_CLOSE_BUTTON_LISTENER ) );
+		dest.putClientProperty( TAB_NEW_BUTTON_LISTENER , src.getClientProperty( TAB_NEW_BUTTON_LISTENER ) );
 		dest.putClientProperty( TAB_CONTEXTMENU_LISTENER, src.getClientProperty( TAB_CONTEXTMENU_LISTENER ) );
 		dest.putClientProperty( TAB_SELECTION_LISTENER, src.getClientProperty( TAB_SELECTION_LISTENER ) );
 		dest.putClientProperty( USE_UNIFORM_WIDTH , src.getClientProperty( USE_UNIFORM_WIDTH ) );
