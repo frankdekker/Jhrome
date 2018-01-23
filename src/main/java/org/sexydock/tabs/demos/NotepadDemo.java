@@ -69,7 +69,7 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo , ITabbedPaneWi
 		tabbedPane.putClientProperty(JhromeTabbedPaneUI.TAB_CONTEXTMENU_LISTENER, new ITabContextMenuListener()
         {
             @Override
-            public void tabContextMenuTriggered(JTabbedPane tabbedPane, Component tabComponent, Component c, Point p)
+            public void tabContextMenuTriggered(JTabbedPane tabbedPane, Component c, Point p)
             {
                 System.out.println("show jpopup menu");
             }
