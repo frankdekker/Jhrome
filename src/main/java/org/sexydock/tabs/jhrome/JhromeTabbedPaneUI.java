@@ -331,6 +331,10 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 										Tab tab = getSelectableTabAt( p );
 										if( tab != null )
 										{
+											if (maybeClose(e, tab)) {
+												return;
+											}
+
                                             maybePopup(e, tab);
 											int vIndex = virtualizeIndex( getInfoIndex( tab ) );
 
@@ -351,7 +355,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
                                     @Override
                                     public void mouseReleased(MouseEvent e)
                                     {
-                                        if( !tabbedPane.isEnabled( ) )
+                                        if( !tabbedPane.isEnabled( ) || SwingUtilities.isMiddleMouseButton(e))
                                         {
                                             return;
                                         }
@@ -360,7 +364,6 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
                                         Tab tab = getSelectableTabAt( p );
                                         if( tab != null ) {
                                             maybePopup(e, tab);
-											maybeClose(e, tab);
                                         }
                                     }
 
@@ -373,13 +376,12 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
                                         ((ITabContextMenuListener) tabbedPane
                                                 .getClientProperty(TAB_CONTEXTMENU_LISTENER))
                                                 .tabContextMenuTriggered(tabbedPane, tab.getContent(), e.getPoint());
-                                        return;
                                     }
 
-                                    private void maybeClose(MouseEvent e, Tab tab)
+                                    private boolean maybeClose(MouseEvent e, Tab tab)
 									{
 										if (!SwingUtilities.isMiddleMouseButton(e)) {
-											return;
+											return false;
 										}
 
 										((ITabCloseButtonListener) tabbedPane
@@ -388,6 +390,8 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 														tabbedPane,
 														tabbedPane.indexOfComponent( tab.getContent( ) )
 												);
+
+										return true;
 									}
                                 };
 		
