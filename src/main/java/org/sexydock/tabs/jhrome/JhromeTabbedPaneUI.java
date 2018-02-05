@@ -131,6 +131,8 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 	public static final String  TAB_SELECTION_LISTENER      = "sexydock.tabbedPane.tabSelectionListener";
 
 	public static final String	FLOATING_TAB_HANDLER		= "sexydock.tabbedPane.floatingTabHandler";
+
+	public static final String  TAB_DROP_LISTENER           = "sexydock.tabbedPane.tabDropListener";
 	
 	public static final String	TAB_DROP_FAILURE_HANDLER	= "sexydock.tabbedPane.tabDropFailureHandler";
 	
@@ -536,6 +538,10 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
         {
             tabbedPane.putClientProperty( TAB_SELECTION_LISTENER , PropertyGetter.get( ITabSelectionListener.class , TAB_SELECTION_LISTENER , new DefaultTabSelectionListener( ) ) );
         }
+		if (tabbedPane.getClientProperty( TAB_DROP_LISTENER ) == null )
+		{
+			tabbedPane.putClientProperty( TAB_DROP_LISTENER , PropertyGetter.get( ITabDropListener.class , TAB_DROP_LISTENER , new DefaultTabDropListener( ) ) );
+		}
 		
 		installKeyboardActions( );
 	}
@@ -2177,6 +2183,10 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 				}
 				
 				tabbedPaneUI.setDragState( dragInfo.tab , dragInfo.grabX , dragX );
+
+				// notify drop listener
+				((ITabDropListener) tabbedPane.getClientProperty( TAB_DROP_LISTENER ))
+						.tabDropped(tabbedPane, dragInfo.tab);
 			}
 			else
 			{
@@ -2838,6 +2848,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		dest.putClientProperty( TAB_CLOSE_BUTTONS_VISIBLE , src.getClientProperty( TAB_CLOSE_BUTTONS_VISIBLE ) );
 		dest.putClientProperty( NEW_TAB_BUTTON_VISIBLE , src.getClientProperty( NEW_TAB_BUTTON_VISIBLE ) );
 		dest.putClientProperty( TAB_DROP_FAILURE_HANDLER , src.getClientProperty( TAB_DROP_FAILURE_HANDLER ) );
+		dest.putClientProperty( TAB_DROP_LISTENER , src.getClientProperty( TAB_DROP_LISTENER ) );
 		dest.putClientProperty( FLOATING_TAB_HANDLER , src.getClientProperty( FLOATING_TAB_HANDLER ) );
 		dest.putClientProperty( CONTENT_PANEL_BORDER , src.getClientProperty( CONTENT_PANEL_BORDER ) );
 		dest.putClientProperty( NEW_TAB_BUTTON_UI , src.getClientProperty( NEW_TAB_BUTTON_UI ) );
