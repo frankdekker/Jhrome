@@ -73,7 +73,7 @@ public class JhromeTabUI extends BasicTabUI
 	
 	private void init( )
 	{
-		innerBorder = new EmptyBorder( 5 , 0 , 5 , 2 );
+		innerBorder = new EmptyBorder( 5 , 0 , 5 , 0 );
 		outerBorder = new JhromeTabBorder( );
 		outerBorder.attrs.copyAttributes( normalAttributes );
 		compoundBorder = new CompoundBorder( outerBorder , innerBorder );

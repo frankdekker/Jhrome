@@ -50,7 +50,6 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo, ITabbedPaneWin
         tabbedPane.putClientProperty(JhromeTabbedPaneUI.TAB_CLOSE_BUTTONS_VISIBLE, true);
         tabbedPane.putClientProperty(JhromeTabbedPaneUI.MAX_UNIFORM_WIDTH, 200);
         tabbedPane.putClientProperty(JhromeTabbedPaneUI.TAB_NEW_BUTTON_LISTENER, new ITabNewButtonListener() {
-            @Override
             public void tabNewButtonPressed(JTabbedPane tabbedPane) {
                 NotepadPane pane = new NotepadPane();
                 tabbedPane.addTab(pane.getTitle(), image, pane);

@@ -41,8 +41,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import org.sexydock.SwingUtils;
-import org.sexydock.tabs.demos.SexyTabsDemos;
-import org.sexydock.tabs.event.TabbedPaneEvent;
+import org.sexydock.tabs.jhrome.JhromeLabelUI;
 import org.sexydock.tabs.jhrome.JhromeTabbedPaneUI;
 
 /**
@@ -55,7 +54,7 @@ public class BasicTabUI extends TabUI
 	public static final String	CLOSE_BUTTON_LISTENER	= "sexydock.closeButtonListener";
 	
 	public static final String	CLOSE_BUTTON_VISIBLE	= "sexydock.closeButtonVisible";
-	
+
 	public BasicTabUI( )
 	{
 		init( );
@@ -82,6 +81,7 @@ public class BasicTabUI extends TabUI
 	private void init( )
 	{
 		label = new JLabel( );
+		label.setUI(new JhromeLabelUI());
 		closeButton = new JButton( "X" );
 		
 		label.setFont( label.getFont( ).deriveFont( Font.PLAIN ) );
@@ -184,7 +184,7 @@ public class BasicTabUI extends TabUI
 	
 	protected void update( )
 	{
-		label.setText( tab.getTitle( ) );
+		label.setText( "<html>" + tab.getTitle( ) + "</html>" );
 		label.setToolTipText( tab.getTitle() );
 		label.setIcon( tab.getIcon( ) );
 		label.setDisplayedMnemonic( tab.getMnemonic( ) );
