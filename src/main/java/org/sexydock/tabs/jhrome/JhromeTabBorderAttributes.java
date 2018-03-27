@@ -62,7 +62,7 @@ public class JhromeTabBorderAttributes
 		UNSELECTED_ROLLOVER_BORDER.topShadowVisible = false;
 	}
 	
-	public final Insets								insets				= new Insets( 1 , 15 , 0 , 15 );
+	public final Insets								insets				= new Insets( 1 , 9 , 0 , 15 );
 	
 	public boolean									topShadowVisible	= true;
 	public Stroke									shadowStroke		= new BasicStroke( 2.5f );

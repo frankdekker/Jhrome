@@ -67,7 +67,7 @@ public class JhromeTabBorder implements Border
 		openPath = new Path2D.Double( Path2D.WIND_EVEN_ODD );
 
         openPath.moveTo( x , y + height - attrs.insets.bottom );
-        openPath.lineTo( x + attrs.insets.left / 2, y + attrs.insets.top);
+        openPath.lineTo( x + 7, y + attrs.insets.top);
         openPath.lineTo( x + width - attrs.insets.right, y + attrs.insets.top );
         openPath.lineTo( x + width - attrs.insets.right * 0.5, y + height - attrs.insets.bottom );
 		
