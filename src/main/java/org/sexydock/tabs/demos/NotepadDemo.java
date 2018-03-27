@@ -248,7 +248,7 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo, ITabbedPaneWin
         }
 
         public String getTitle() {
-            return (isDirty() ? "*" : "") + (file == null ? "Untitled" : file.getName());
+            return (isDirty() ? "*" : "") + (file == null ? "Untitled document" : file.getName());
         }
 
         private JTabbedPane getTabbedPane() {

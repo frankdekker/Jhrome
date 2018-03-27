@@ -184,7 +184,7 @@ public class BasicTabUI extends TabUI
 	
 	protected void update( )
 	{
-		label.setText( "<html>" + tab.getTitle( ) + "</html>" );
+		label.setText( "<html><nobr>" + tab.getTitle( ) + "</nobr></html>" );
 		label.setIcon( tab.getIcon( ) );
 		label.setDisplayedMnemonic( tab.getMnemonic( ) );
 		label.setDisplayedMnemonicIndex( tab.getDisplayedMnemonicIndex( ) );
