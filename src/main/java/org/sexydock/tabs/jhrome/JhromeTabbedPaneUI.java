@@ -1894,6 +1894,8 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 			{
 				return;
 			}
+
+			newTabButton.setVisible(false);
 			
 			dragOrigin = dge.getDragOrigin( );
 			
@@ -1960,6 +1962,8 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		@Override
 		public void dragDropEnd( final DragSourceDropEvent dsde )
 		{
+			newTabButton.setVisible(true);
+
 			if( dragInfo != null )
 			{
 				if( dragInfo.floatingTabHandler != null )
