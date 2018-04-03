@@ -301,6 +301,10 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 									public void mouseExited( MouseEvent e )
 									{
 										updateHoldTabScale( e );
+										for( TabInfo info : tabs )
+										{
+											info.tab.setRollover(false);
+										}
 									}
 									
 									@Override
