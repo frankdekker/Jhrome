@@ -2131,6 +2131,14 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 			}
 			draggedParent.tabbedPane.removeTabAt( tabIndex );
 			dragInfo.tab.setTabComponent( draggedTabComponent );
+
+			Tab parentSelectedTab = draggedParent.getSelectedTab();
+			if (parentSelectedTab != null) {
+				((ITabSelectionListener) draggedParent.tabbedPane
+						.getClientProperty(TAB_SELECTION_LISTENER))
+						.tabActivated(tabbedPane, parentSelectedTab.getContent());
+			}
+
 			// if( draggedParent.getTabCount( ) == 0 )
 			// {
 			// Window window = SwingUtilities.getWindowAncestor( draggedParent.tabbedPane );

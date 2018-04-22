@@ -78,6 +78,11 @@ public class NotepadDemo extends JFrame implements ISexyTabsDemo, ITabbedPaneWin
             public void tabSelected(JTabbedPane tabbedPane, Component c) {
                 System.out.println("tab selected");
             }
+
+            @Override
+            public void tabActivated(JTabbedPane tabbedPane, Component c) {
+                System.out.println("tab activated");
+            }
         });
 
         getContentPane().add(tabbedPane, BorderLayout.CENTER);
