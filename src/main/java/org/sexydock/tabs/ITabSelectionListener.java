@@ -14,4 +14,9 @@ public interface ITabSelectionListener
      * When the user drags out a tab, and this tab becomes active
      */
     public void tabActivated(JTabbedPane tabbedPane, Component c);
+
+    /**
+     * When the user drags out the tab, this event is fire for the tab being removed
+     */
+    public void tabRemoved(JTabbedPane tabbedPane, Component c);
 }

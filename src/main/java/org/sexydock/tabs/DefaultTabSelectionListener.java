@@ -15,4 +15,9 @@ public class DefaultTabSelectionListener implements ITabSelectionListener
     public void tabActivated(JTabbedPane tabbedPane, Component c) {
 
     }
+
+    @Override
+    public void tabRemoved(JTabbedPane tabbedPane, Component c) {
+
+    }
 }

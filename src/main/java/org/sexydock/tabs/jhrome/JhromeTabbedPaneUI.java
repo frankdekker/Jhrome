@@ -2136,15 +2136,12 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 			if (parentSelectedTab != null) {
 				((ITabSelectionListener) draggedParent.tabbedPane
 						.getClientProperty(TAB_SELECTION_LISTENER))
+						.tabRemoved(tabbedPane, dragInfo.tab.getContent());
+
+				((ITabSelectionListener) draggedParent.tabbedPane
+						.getClientProperty(TAB_SELECTION_LISTENER))
 						.tabActivated(tabbedPane, parentSelectedTab.getContent());
 			}
-
-			// if( draggedParent.getTabCount( ) == 0 )
-			// {
-			// Window window = SwingUtilities.getWindowAncestor( draggedParent.tabbedPane );
-			// window.setVisible( false );
-			// dragInfo.deadWindows.add( window );
-			// }
 		}
 	}
 	
