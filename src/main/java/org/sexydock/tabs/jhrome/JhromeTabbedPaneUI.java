@@ -1895,13 +1895,13 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 				return;
 			}
 
-			newTabButton.setVisible(false);
-			
 			dragOrigin = dge.getDragOrigin( );
 			
 			Tab draggedTab = getDraggableTabAt( dragOrigin );
 			if( draggedTab != null )
 			{
+				newTabButton.setVisible(false);
+
 				Window window = SwingUtilities.getWindowAncestor( tabbedPane );
 				Dimension sourceWindowSize = null;
 				if( window != null )

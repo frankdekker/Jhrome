@@ -5,7 +5,7 @@
 	<property name="build" location="build" />
 	<property name="build-main" location="${build}/main" />
 	<property name="build-test" location="${build}/test" />
-	<property name="jhrome.version" value="2.0" />
+	<property name="jhrome.version" value="2.1" />
 	<property name="examples" value="org/sexydock/tabs/demos" />
 	<property name="lib-test" location="lib/test" />
 	
