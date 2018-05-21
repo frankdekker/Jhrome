@@ -51,6 +51,7 @@ public class JhromeTabBorderAttributes
 		UNSELECTED_BORDER.topColor = UNSELECTED_BORDER.bottomColor = new Color( 211 , 211 , 222 );
 		UNSELECTED_BORDER.outlineColor = new Color( 177 , 160 , 179 );
 		UNSELECTED_BORDER.topShadowVisible = false;
+		UNSELECTED_BORDER.borderBottom = true;
 	}
 	
 	public static final JhromeTabBorderAttributes	UNSELECTED_ROLLOVER_BORDER;
@@ -60,6 +61,7 @@ public class JhromeTabBorderAttributes
 		UNSELECTED_ROLLOVER_BORDER.topColor = UNSELECTED_ROLLOVER_BORDER.bottomColor = new Color( 231 , 231 , 239 );
 		UNSELECTED_ROLLOVER_BORDER.outlineColor = new Color( 154 , 144 , 156 );
 		UNSELECTED_ROLLOVER_BORDER.topShadowVisible = false;
+		UNSELECTED_ROLLOVER_BORDER.borderBottom = true;
 	}
 	
 	public final Insets								insets				= new Insets( 1 , 9 , 0 , 15 );
@@ -74,6 +76,9 @@ public class JhromeTabBorderAttributes
 	
 	public Color									topColor			= new Color( 255 , 255 , 255 );
 	public Color									bottomColor			= new Color( 248 , 248 , 248 );
+
+	public boolean                                  borderBottom        = false;
+	public Color                                    borderBottomColor   = new Color( 194, 187, 194 );
 	
 	public void copyAttributes( JhromeTabBorderAttributes other )
 	{
@@ -89,6 +94,9 @@ public class JhromeTabBorderAttributes
 		
 		topColor = other.topColor;
 		bottomColor = other.bottomColor;
+
+		borderBottom = other.borderBottom;
+		borderBottomColor = other.borderBottomColor;
 	}
 	
 	public void interpolateColors( JhromeTabBorderAttributes a , JhromeTabBorderAttributes b , float f )

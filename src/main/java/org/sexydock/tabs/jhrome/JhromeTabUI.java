@@ -78,14 +78,7 @@ public class JhromeTabUI extends BasicTabUI
 		outerBorder.attrs.copyAttributes( normalAttributes );
 		compoundBorder = new CompoundBorder( outerBorder , innerBorder );
 		
-		highlightTimer = new javax.swing.Timer( 30 , new ActionListener( )
-		{
-			@Override
-			public void actionPerformed( ActionEvent e )
-			{
-				onHighlightTimerEvent( e );
-			}
-		} );
+		highlightTimer = new javax.swing.Timer( 30 , this::onHighlightTimerEvent);
 		
 		JLabel label = getLabel( );
 		label.setFont( label.getFont( ).deriveFont( Font.PLAIN ) );

@@ -19,15 +19,7 @@ along with Jhrome.  If not, see <http://www.gnu.org/licenses/>.
 
 package org.sexydock.tabs.jhrome;
 
-import java.awt.Component;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Paint;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 
@@ -122,6 +114,11 @@ public class JhromeTabBorder implements Border
 			g2.setStroke( attrs.outlineStroke );
 			g2.setColor( attrs.outlineColor );
 			g2.draw( openPath );
+		}
+
+		if (attrs.borderBottom) {
+			g2.setColor( attrs.borderBottomColor );
+			g2.drawLine(0, height-1, width , height-1);
 		}
 		
 		g2.setPaint( prevPaint );
