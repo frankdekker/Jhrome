@@ -2845,7 +2845,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		}
 	}
 	
-	private static boolean	LOG_EXCEPTIONS	= true;
+	private static boolean	LOG_EXCEPTIONS	= false;
 	
 	private static void log( Exception e )
 	{
