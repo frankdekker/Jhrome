@@ -476,7 +476,7 @@ public class JhromeTabbedPaneUI extends TabbedPaneUI
 		mouseOverManager.addExcludedComponent( tabLayeredPane );
 		mouseOverManager.install( tabbedPane );
 		
-		newTabButton = new JButton( );
+		newTabButton = new JhromeNewTabButton( );
 		
 		newTabButtonListener = new ActionListener( )
 		{
